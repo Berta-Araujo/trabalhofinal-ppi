@@ -211,8 +211,5 @@ app.post('/leitores', verificarLogin, (req, res) => {
     res.redirect('/leitores')
 })
 
-app.listen(3000, () => {
-    console.log('Servidor rodando em http://localhost:3000 ')
-})
 
 export default app
