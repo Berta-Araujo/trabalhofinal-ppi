@@ -135,8 +135,20 @@ app.post('/livros', verificarLogin, (req, res) => {
 
     const { titulo, autor, isbn } = req.body
 
-    if(!titulo || !autor || !isbn){
-        return res.send(pagina(`<p>Preencha todos os campos</p><a href="/livros">Voltar</a>`))
+    let erros = []
+
+    if(!titulo) erros.push("O título do livro não foi preenchido")
+    if(!autor) erros.push("O autor do livro não foi preenchido")
+    if(!isbn) erros.push("O código ISBN não foi preenchido")
+
+    if(erros.length > 0){
+        return res.send(pagina(`
+            <h3>Erro no cadastro de livro</h3>
+            <ul>
+                ${erros.map(e => `<li>${e}</li>`).join("")}
+            </ul>
+            <a href="/livros">Voltar</a>
+        `))
     }
 
     livros.push({ titulo, autor, isbn })
@@ -195,8 +207,23 @@ app.post('/leitores', verificarLogin, (req, res) => {
 
     const { nome, cpf, telefone, dataEmprestimo, dataDevolucao, livro } = req.body
 
-    if(!nome || !cpf || !telefone || !dataEmprestimo || !dataDevolucao || !livro){
-        return res.send(pagina(`<p>Preencha todos os campos</p><a href="/leitores">Voltar</a>`))
+    let erros = []
+
+    if(!nome) erros.push("O nome não foi preenchido")
+    if(!cpf) erros.push("O CPF não foi preenchido")
+    if(!telefone) erros.push("O telefone não foi preenchido")
+    if(!dataEmprestimo) erros.push("A data de empréstimo não foi preenchida")
+    if(!dataDevolucao) erros.push("A data de devolução não foi preenchida")
+    if(!livro) erros.push("O livro não foi selecionado")
+
+    if(erros.length > 0){
+        return res.send(pagina(`
+            <h3>Erro no cadastro de leitor</h3>
+            <ul>
+                ${erros.map(e => `<li>${e}</li>`).join("")}
+            </ul>
+            <a href="/leitores">Voltar</a>
+        `))
     }
 
     leitores.push({
